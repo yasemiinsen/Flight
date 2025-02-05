@@ -17,6 +17,18 @@ public class FlightService {
     private FlightRepository flightRepository;
 
     public Flight createFlight(Flight flight) {
+        //constraint
+        long count=flightRepository.countByAirlineCodeAndSourceAndDestinationAndDepartureTime(
+           flight.getAirlineCode(),
+           flight.getSource(),
+                flight.getDestination(),
+                flight.getDepartureTime().toLocalDate().atStartOfDay(),
+                flight.getDepartureTime().toLocalDate().atTime(23,59));
+
+
+        if(count>=3) {
+            throw new IllegalArgumentException("Daily flight limit exceeded");
+        }
         return flightRepository.save(flight);
 
     }

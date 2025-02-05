@@ -13,6 +13,10 @@ public class Flight {
     private Integer flightId;
     private String flightNumber;
     private String destination;
+    private String airlineCode;
+    private String source;
+    private LocalDateTime departureTime;
+    private LocalDateTime arrivalTime;
 
 
     //Getter Setter methodları
@@ -35,6 +39,11 @@ public class Flight {
     public void setDestination(String destination) {
         this.destination = destination;
     }
-
+    public String getAirlineCode() {return airlineCode;}
+    public void setAirlineCode(String airlineCode) {this.airlineCode = airlineCode;}
+    public String getSource() {return source;}
+    public void setSource(String source) {this.source = source;}
+    public LocalDateTime getDepartureTime() {return departureTime;}
+    public void setDepartureTime(LocalDateTime departureTime) {this.departureTime = departureTime;}
 
 }
