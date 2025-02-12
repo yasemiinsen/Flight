@@ -2,12 +2,12 @@ package com.Flight.service;
 
 
 import com.Flight.entity.Flight;
-import com.Flight.exception.FlightNotFoundException;
-import com.Flight.exception.GlobalExceptionHandler;
 import com.Flight.repository.FlightRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,44 +16,48 @@ public class FlightService {
     @Autowired
     private FlightRepository flightRepository;
 
+    @Transactional
     public Flight createFlight(Flight flight) {
         //constraint
-        long count=flightRepository.countByAirlineCodeAndSourceAndDestinationAndDepartureTime(
-           flight.getAirlineCode(),
-           flight.getSource(),
-                flight.getDestination(),
-                flight.getDepartureTime().toLocalDate().atStartOfDay(),
-                flight.getDepartureTime().toLocalDate().atTime(23,59));
+        LocalDate flightDate = flight.getDepartureTime().toLocalDate();
+        List<Flight> existingFlights = flightRepository.findByAirlineCodeAndSourceAndDestinationAndDepartureTimeBetween(
+                flight.getAirlineCode(), flight.getSource(), flight.getDestination(),
+                flightDate.atStartOfDay(), flightDate.atTime(23, 59));
 
 
-        if(count>=3) {
-            throw new IllegalArgumentException("Daily flight limit exceeded");
+        if (existingFlights.size() >= 3) {
+            throw new IllegalArgumentException("An airline can only have at most 3 flights per day for the same route.");
         }
         return flightRepository.save(flight);
 
     }
+
     public List<Flight> getAllFlights() {
         return flightRepository.findAll();
     }
-    public Optional<Flight> getFlightById(int id) {
-        return flightRepository.findById(id);
+
+    public Flight getFlightById(int flightId) {
+        return Optional.ofNullable(flightRepository.findById(flightId)
+                .orElseThrow(() -> new IllegalArgumentException("Flight not found")));
+
     }
-    public Flight updateFlight(Integer id, Flight flightDetails) {
-        if (flightDetails == null){
-            throw new IllegalArgumentException("Flight details cannot be null");
-        }
-        Flight flight = null;
-        try {
-            flight = flightRepository.findById(id).orElseThrow(()-> new FlightNotFoundException());
-        } catch (FlightNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+
+    @Transactional
+    public Flight updateFlight(Integer flightId, Flight flightDetails) {
+        Flight flight = getFlightById(flightId);
+        flight.setAirlineCode(flightDetails.getAirlineCode());
         flight.setFlightNumber(flightDetails.getFlightNumber());
+        flight.setSource(flightDetails.getSource());
         flight.setDestination(flightDetails.getDestination());
+        flight.setDepartureTime(flightDetails.getDepartureTime());
+        flight.setArrivalTime(flightDetails.getArrivalTime());
         return flightRepository.save(flight);
     }
-    public void deleteFlightById(Integer id) {
-        flightRepository.deleteById(id);
+
+    @Transactional
+    public void deleteFlightById(int flightId) {
+        flightRepository.deleteById(flightId);
     }
+
 
 }

@@ -1,21 +1,42 @@
 package com.Flight.entity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
+
+import jakarta.validation.constraints.NotNull;
+
 
 import java.time.LocalDateTime;
 
 @Entity
+
+
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = {"airlineCode","source","destination","departureTime"}
+))
 public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer flightId;
+
+
+    @NotNull(message= "flightNumber is required" )
     private String flightNumber;
+
+    @NotNull(message = "Destination airport code is required")
     private String destination;
+
+    @NotNull(message= "Airline code is required" )
     private String airlineCode;
+
+    @NotNull(message = "Source airport code is required")
     private String source;
+
+    @NotNull(message = "Departure time is required")
+    @Future(message = "Departure time must be in the future")
     private LocalDateTime departureTime;
+
+    @NotNull(message = "Arrival time is required")
+    @Future(message = "Arrival time must be in the future")
     private LocalDateTime arrivalTime;
 
 

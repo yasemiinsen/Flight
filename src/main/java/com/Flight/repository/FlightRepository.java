@@ -5,9 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Integer> {
 
-    long countByAirlineCodeAndSourceAndDestinationAndDepartureTime(String airlineCode, String sourceAirport, String destinationAirport, LocalDateTime departureTime, LocalDateTime arrivalTime);
+    List<Flight> findByAirlineCodeAndSourceAndDestinationAndDepartureTimeBetween(
+            String airlineCode, String source, String destination, LocalDateTime start, LocalDateTime end
+    );
 }
