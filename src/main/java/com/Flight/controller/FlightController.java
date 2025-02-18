@@ -3,63 +3,72 @@ package com.Flight.controller;
 
 import com.Flight.entity.Flight;
 import com.Flight.service.FlightService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
+
+import static org.springframework.http.ResponseEntity.*;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/flights")
+@RequiredArgsConstructor
+
 public class FlightController {
     @Autowired
     private final FlightService flightService;
 
-    public FlightController(FlightService flightService) {
-        this.flightService = flightService;
-    }
+
 
     @PostMapping
-    public ResponseEntity<Flight> createFlight(@RequestBody Flight flight) {
+    public ResponseEntity<Flight> createFlight(@Valid @RequestBody Flight flight) {
         try {
             Flight createdFlight = flightService.createFlight(flight);
-            return new ResponseEntity<>(createdFlight, HttpStatus.CREATED);
+            return new ResponseEntity<>(createdFlight,HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
+
     @GetMapping
-    public List<Flight> getAllFlights() {
-        return flightService.getAllFlights();
+    public ResponseEntity<List<Flight>> getAllFlights() {
+        List<Flight> flights = flightService.getAllFlights();
+        return new ResponseEntity<>(flights,HttpStatus.OK);
     }
 
     @GetMapping("/{flightId}")
-    public ResponseEntity<Flight> getFlightId(@PathVariable Integer flightId) {
+    public ResponseEntity<Flight> getFlightId(@PathVariable int flightId) {
         try {
-            Flight flight = flightService.getFlightById(flightId)
-                    .orElseThrow(() -> new IllegalArgumentException("Flight not found"));
-            return ResponseEntity.ok(flight);
+            Flight flight = flightService.getFlightById(flightId);
+            return new ResponseEntity<>(flight,HttpStatus.OK);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/{flightId}")
-    public ResponseEntity<Flight> updateFlight(@PathVariable Integer flightId, @RequestBody Flight flightDetails) {
+    public ResponseEntity<Flight> updateFlight(@PathVariable Integer flightId, @Valid @RequestBody Flight flightDetails) {
         try {
-            return ResponseEntity.ok(flightService.updateFlight(flightId, flightDetails));
+            Flight updatedFlight = flightService.updateFlight(flightId, flightDetails);
+            return new ResponseEntity<>(updatedFlight,HttpStatus.OK);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/{flightId}")
-    public ResponseEntity<Flight> deleteFlight(@PathVariable Integer flightId) {
-        flightService.deleteFlightById(flightId);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteFlight(@PathVariable int flightId) {
+        try{
+            flightService.deleteFlightById(flightId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
