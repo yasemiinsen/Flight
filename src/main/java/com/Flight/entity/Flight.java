@@ -2,7 +2,10 @@ package com.Flight.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 
+
 import jakarta.validation.constraints.NotNull;
+import jdk.jfr.DataAmount;
+import lombok.*;
 
 
 import java.time.LocalDateTime;
@@ -13,19 +16,25 @@ import java.time.LocalDateTime;
 @Table(
         uniqueConstraints = @UniqueConstraint(columnNames = {"airlineCode","source","destination","departureTime"}
 ))
+@Getter
+@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer flightId;
 
 
-    @NotNull(message= "flightNumber is required" )
+    @NotNull(message = "flightNumber is required")
     private String flightNumber;
 
     @NotNull(message = "Destination airport code is required")
     private String destination;
 
-    @NotNull(message= "Airline code is required" )
+    @NotNull(message = "Airline code is required")
     private String airlineCode;
 
     @NotNull(message = "Source airport code is required")
@@ -38,11 +47,11 @@ public class Flight {
     @NotNull(message = "Arrival time is required")
     @Future(message = "Arrival time must be in the future")
     private LocalDateTime arrivalTime;
-
+}
 
     //Getter Setter methodları
 
-    public Integer getFlightId() {
+   /* public Integer getFlightId() {
         return flightId;
     }
     public void setFlightId(Integer flightId) {
@@ -67,4 +76,11 @@ public class Flight {
     public LocalDateTime getDepartureTime() {return departureTime;}
     public void setDepartureTime(LocalDateTime departureTime) {this.departureTime = departureTime;}
 
-}
+    public LocalDateTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(LocalDateTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+*/
