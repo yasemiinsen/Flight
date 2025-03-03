@@ -13,7 +13,7 @@ import java.util.List;
 public interface FlightRepository extends JpaRepository<Flight, Integer> {
     @Query("SELECT f FROM Flight f WHERE f.airlineCode = :airlineCode " +
             "AND f.source = :source " +
-            "AND DATE(f.departureTime) = DATE(:departureTime)")
+            "AND CAST(f.departureTime AS DATE) = CAST(:departureTime AS DATE)")
     List<Flight> findFlightsByAirlineSourceDestinationAndDay(
             @Param("airlineCode") String airlineCode,
             @Param("source") String source,

@@ -1,86 +1,35 @@
 package com.Flight.entity;
+
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Future;
+import lombok.Getter;
+import lombok.Setter;
 
-
-import jakarta.validation.constraints.NotNull;
-import jdk.jfr.DataAmount;
-import lombok.*;
-
-
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
-
-
-@Table(
-        uniqueConstraints = @UniqueConstraint(columnNames = {"airlineCode","source","destination","departureTime"}
-))
 @Getter
 @Setter
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 public class Flight {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer flightId;
 
+    @ManyToOne
+    @JoinColumn(name = "AirlineId")
+    private Airline airline;
 
-    @NotNull(message = "flightNumber is required")
-    private String flightNumber;
+    @ManyToOne
+    @JoinColumn(name = "SourceAirportId")
+    private Airport source;
 
-    @NotNull(message = "Destination airport code is required")
-    private String destination;
+    @ManyToOne
+    @JoinColumn(name = "DestinationAirportId")
+    private Airport destination;
 
-    @NotNull(message = "Airline code is required")
-    private String airlineCode;
+    private Date departureDate;
+    private Date arrivalDate;
+    private int flightNumber;
 
-    @NotNull(message = "Source airport code is required")
-    private String source;
-
-    @NotNull(message = "Departure time is required")
-    @Future(message = "Departure time must be in the future")
-    private LocalDateTime departureTime;
-
-    @NotNull(message = "Arrival time is required")
-    @Future(message = "Arrival time must be in the future")
-    private LocalDateTime arrivalTime;
+    // Lombok otomatik olarak getter ve setter metodlarını oluşturacak
 }
-
-    //Getter Setter methodları
-
-   /* public Integer getFlightId() {
-        return flightId;
-    }
-    public void setFlightId(Integer flightId) {
-        this.flightId = flightId;
-    }
-    public String getFlightNumber() {
-        return flightNumber;
-    }
-    public void setFlightNumber(String flightNumber) {
-        this.flightNumber = this.flightNumber;
-    }
-    public String getDestination() {
-        return destination;
-    }
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
-    public String getAirlineCode() {return airlineCode;}
-    public void setAirlineCode(String airlineCode) {this.airlineCode = airlineCode;}
-    public String getSource() {return source;}
-    public void setSource(String source) {this.source = source;}
-    public LocalDateTime getDepartureTime() {return departureTime;}
-    public void setDepartureTime(LocalDateTime departureTime) {this.departureTime = departureTime;}
-
-    public LocalDateTime getArrivalTime() {
-        return arrivalTime;
-    }
-
-    public void setArrivalTime(LocalDateTime arrivalTime) {
-        this.arrivalTime = arrivalTime;
-    }
-*/
