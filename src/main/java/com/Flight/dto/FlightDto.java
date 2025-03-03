@@ -1,0 +1,17 @@
+package com.Flight.dto;
+
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
+public class FlightDto {
+
+
+    private Integer flightId;
+    private Integer source;
+    private Integer destination;
+    private Date departureDate;
+    private Date arrivalDate;
+    private int flightNumber;
+}
