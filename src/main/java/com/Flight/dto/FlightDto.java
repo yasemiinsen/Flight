@@ -9,8 +9,9 @@ public class FlightDto {
 
 
     private Integer flightId;
-    private Integer source;
-    private Integer destination;
+    private Integer airlineId;
+    private String source;
+    private String destination;
     private Date departureDate;
     private Date arrivalDate;
     private int flightNumber;

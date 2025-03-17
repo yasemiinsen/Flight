@@ -1,6 +1,6 @@
-package com.Flight.service.impl;
+package com.Flight.service;
 
-import com.Flight.constraints.FlightConstants;
+
 import com.Flight.entity.Flight;
 import com.Flight.exception.FlightNotFoundException;
 import com.Flight.repository.FlightRepository;
@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +23,8 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Flight getFlightById(Integer id) {
-        return flightRepository.findById(id)
-                .orElseThrow(() -> new FlightNotFoundException(String.format(FlightConstants.FLIGHT_NOT_FOUND_MESSAGE, id)));
+    public Optional<Flight> getFlightById(Integer id) {
+        return flightRepository.findById(id);
     }
 
     @Override

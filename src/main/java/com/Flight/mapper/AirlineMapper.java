@@ -4,7 +4,7 @@ import com.Flight.dto.AirlineDto;
 import com.Flight.entity.Airline;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+
 public interface AirlineMapper {
     AirlineDto toDto(Airline airline);
     Airline toEntity(AirlineDto airlineDto);

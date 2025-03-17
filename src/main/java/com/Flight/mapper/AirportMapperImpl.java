@@ -1,4 +1,4 @@
-package com.Flight.mapper.impl;
+package com.Flight.mapper;
 
 import com.Flight.dto.AirportDto;
 import com.Flight.entity.Airport;
@@ -16,7 +16,7 @@ public class AirportMapperImpl implements AirportMapper {
             return null;
         }
         AirportDto airportDto = new AirportDto();
-        airportDto.setId(airport.getId());
+        airportDto.setAirportId(airport.getAirportId());
         airportDto.setAirportCode(airport.getAirportCode());
         airportDto.setCity(airport.getCity());
         return airportDto;
@@ -28,7 +28,7 @@ public class AirportMapperImpl implements AirportMapper {
             return null;
         }
         Airport airport = new Airport();
-        airport.setId(airportDto.getId());
+        airport.setAirportId(airportDto.getAirportId());
         airport.setAirportCode(airportDto.getAirportCode());
         airport.setCity(airportDto.getCity());
         return airport;

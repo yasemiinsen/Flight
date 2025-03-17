@@ -1,4 +1,4 @@
-package com.Flight.mapper.impl;
+package com.Flight.mapper;
 
 import com.Flight.dto.AirlineDto;
 import com.Flight.entity.Airline;

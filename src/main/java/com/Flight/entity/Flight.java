@@ -29,7 +29,7 @@ public class Flight {
 
     private Date departureDate;
     private Date arrivalDate;
-    private int flightNumber;
+    private Integer flightNumber;
 
-    // Lombok otomatik olarak getter ve setter metodlarını oluşturacak
+
 }

@@ -1,13 +1,12 @@
-package com.Flight.service.impl;
-
+package com.Flight.service;
 import com.Flight.entity.Airport;
-import com.Flight.exception.SourceDestinationException;
 import com.Flight.repository.AirportRepository;
 import com.Flight.service.AirportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +20,8 @@ public class AirportServiceImpl implements AirportService {
     }
 
     @Override
-    public Airport getAirportById(Integer id) {
-        return airportRepository.findById(id)
-                .orElseThrow(() -> new SourceDestinationException(String.format(FlightConstants.SOURCE_DEST_ERROR_MESSAGE, id)));
+    public Optional<Airport> getAirportById(Integer airportId) {
+        return airportRepository.findById(airportId);
     }
 
     @Override
@@ -37,7 +35,7 @@ public class AirportServiceImpl implements AirportService {
     }
 
     @Override
-    public void deleteAirport(Integer id) {
-        airportRepository.deleteById(id);
+    public void deleteAirport(Integer airportId) {
+        airportRepository.deleteById(airportId);
     }
 }

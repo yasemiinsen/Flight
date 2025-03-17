@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -42,8 +43,8 @@ public class FlightController {
 
     @GetMapping("/{flightId}")
     public ResponseEntity<FlightDto> getFlightById(@PathVariable Integer flightId) {
-        Flight flight = flightService.getFlightById(flightId);
-        FlightDto flightDto = flightMapper.toDto(flight);
+        Optional<Flight> flight = flightService.getFlightById(flightId);
+        FlightDto flightDto = flightMapper.toDto(flight.orElse(null));
         return ResponseEntity.status(HttpStatus.OK).body(flightDto);
     }
 

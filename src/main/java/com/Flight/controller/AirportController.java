@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,10 +31,15 @@ public class AirportController {
         return ResponseEntity.status(HttpStatus.OK).body(airportDtos);
     }
 
-    @GetMapping("/{airlineId}")
+    @GetMapping("/{airportId}")
     public ResponseEntity<AirportDto> getAirportById(@PathVariable Integer airportId) {
-        Airport airport = airportService.getAirportById(airportId);
-        AirportDto airportDto = convertToDto(airport);
+        Optional<Airport> airportOpt = airportService.getAirportById(airportId);
+
+        if (airportOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        AirportDto airportDto = convertToDto(airportOpt.get());
         return ResponseEntity.status(HttpStatus.OK).body(airportDto);
     }
 

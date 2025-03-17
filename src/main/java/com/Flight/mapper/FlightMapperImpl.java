@@ -1,14 +1,14 @@
-package com.Flight.mapper.impl;
+package com.Flight.mapper;
 
 import com.Flight.dto.FlightDto;
 import com.Flight.entity.Airline;
 import com.Flight.entity.Airport;
 import com.Flight.entity.Flight;
-import com.Flight.mapper.FlightMapper;
 import org.springframework.stereotype.Component;
 
 @Component
 public class FlightMapperImpl implements FlightMapper {
+
     @Override
     public FlightDto toDto(Flight flight) {
         FlightDto flightDto = new FlightDto();
@@ -26,11 +26,11 @@ public class FlightMapperImpl implements FlightMapper {
     public Flight toEntity(FlightDto flightDto) {
         Flight flight = new Flight();
         flight.setAirline(new Airline());
-        flight.getAirline().setId(flightDto.getAirlineId());
+        flight.getAirline().setAirlineId(flightDto.getAirlineId());
         flight.setSource(new Airport());
-        flight.getSource().setId(flightDto.getSourceId());
+        flight.getSource().setAirportCode(flightDto.getSource());
         flight.setDestination(new Airport());
-        flight.getDestination().setId(flightDto.getDestinationId());
+        flight.getDestination().setAirportCode(flightDto.getDestination());
         flight.setDepartureDate(flightDto.getDepartureDate());
         flight.setArrivalDate(flightDto.getArrivalDate());
         flight.setFlightNumber(flightDto.getFlightNumber());
