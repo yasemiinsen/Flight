@@ -1,37 +1,27 @@
-package com.Flight.entity;
+package com.Flight.dto.request;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.util.List;
+import lombok.Setter;
 
-@Entity
-@Table(name = "airlines")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Airline {
+public class AirlineSaveRequestDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "airline_id")
-    private int id;
 
+    @NotBlank(message = "Airline code is required")
     @Pattern(regexp = "^[A-Z0-9]{2,3}$", message = "Airline code must be 2-3 uppercase letters or numbers")
-    @Column(name = "airline_code", length = 3)
     private String code;
 
+    @NotBlank(message = "Airline name is required")
     @Size(min = 2, max = 100, message = "Airline name must be between 2 and 100 characters")
-    @Column(name = "airline_name", length = 100)
     private String name;
 
 
-    @OneToMany(mappedBy = "airline")
-    private List<Flight> flights;
-
-
-    }
+}

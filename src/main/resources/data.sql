@@ -1,15 +1,37 @@
-INSERT INTO airports (airport_code, airport_name, city, country) VALUES ('JFK', 'John F. Kennedy International Airport', 'New York', 'USA');
-INSERT INTO airports (airport_code, airport_name, city, country) VALUES ('LAX', 'Los Angeles International Airport', 'Los Angeles', 'USA');
-INSERT INTO airports (airport_code, airport_name, city, country) VALUES ('ORD', 'O'Hare International Airport', 'Chicago', 'USA');
+INSERT INTO airports (airport_name, city, country) VALUES
+                                                       ('Istanbul Airport', 'Istanbul', 'Turkey'),
+                                                       ('Sabiha Gokcen Airport', 'Istanbul', 'Turkey'),
+                                                       ('Heathrow Airport', 'London', 'United Kingdom'),
+                                                       ('Charles de Gaulle Airport', 'Paris', 'France'),
+                                                       ('Frankfurt Airport', 'Frankfurt', 'Germany');
 
 
-INSERT INTO airline (airline_code, airline_name) VALUES ('AA', 'American Airlines');
-INSERT INTO airline (airline_code, airline_name) VALUES ('DL', 'Delta Airlines');
-INSERT INTO airline (airline_code, airline_name) VALUES ('UA', 'United Airlines');
+INSERT INTO airlines (airline_code, name, country_of_origin) VALUES
+                                                                 ('THY', 'Turkish Airlines', 'Turkey'),
+                                                                 ('PGT', 'Pegasus Airlines', 'Turkey'),
+                                                                 ('BA', 'British Airways', 'United Kingdom'),
+                                                                 ('AF', 'Air France', 'France'),
+                                                                 ('LH', 'Lufthansa', 'Germany');
 
- 
-INSERT INTO flight (flight_number, departure_time, arrival_time, airline_id, departure_airport_id, arrival_airport_id) VALUES ('FL101', '2025-03-01 10:00:00', '2025-03-01 12:30:00', 1, 1, 2);
-INSERT INTO flight (flight_number, departure_time, arrival_time, airline_id, departure_airport_id, arrival_airport_id) VALUES ('FL202', '2025-03-01 14:00:00', '2025-03-01 16:00:00', 2, 2, 3);
-INSERT INTO flight (flight_number, departure_time, arrival_time, airline_id, departure_airport_id, arrival_airport_id) VALUES ('FL303', '2025-03-02 09:00:00', '2025-03-02 11:00:00', 3, 3, 1);
-INSERT INTO flight (flight_number, departure_time, arrival_time, airline_id, departure_airport_id, arrival_airport_id) VALUES ('FL404', '2025-03-02 15:15:00', '2025-03-02 17:45:00', 1, 1, 3);
-INSERT INTO flight (flight_number, departure_time, arrival_time, airline_id, departure_airport_id, arrival_airport_id) VALUES ('FL505', '2025-03-03 08:30:00', '2025-03-03 10:00:00', 2, 2, 1);
+-- Flights (Günlük 3 uçuş kuralına uygun örnek veriler)
+INSERT INTO flights (flight_number, flight_date_time, source_airport_id, destination_airport_id, flight_airline_id) VALUES
+-- Turkish Airlines uçuşları
+('TK1000', '2025-04-09 08:00:00', 1, 3, 1),  -- Istanbul -> London
+('TK1001', '2025-04-09 12:00:00', 1, 3, 1),  -- Istanbul -> London
+('TK1002', '2025-04-09 16:00:00', 1, 3, 1),  -- Istanbul -> London (günlük max 3)
+
+-- Pegasus uçuşları
+('PC2000', '2025-04-09 07:30:00', 2, 4, 2),  -- Sabiha -> Paris
+('PC2001', '2025-04-09 13:30:00', 2, 4, 2),  -- Sabiha -> Paris
+
+-- British Airways uçuşları
+('BA3000', '2025-04-09 09:00:00', 3, 1, 3),  -- London -> Istanbul
+('BA3001', '2025-04-09 15:00:00', 3, 1, 3),
+
+-- Air France uçuşları
+('AF4000', '2025-04-09 10:00:00', 4, 5, 4),  -- Paris -> Frankfurt
+('AF4001', '2025-04-09 14:00:00', 4, 5, 4),
+
+-- Lufthansa uçuşları
+('LH5000', '2025-04-09 11:00:00', 5, 2, 5),  -- Frankfurt -> Sabiha
+('LH5001', '2025-04-09 17:00:00', 5, 2, 5);

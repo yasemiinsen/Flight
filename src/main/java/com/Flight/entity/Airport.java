@@ -2,43 +2,47 @@ package com.Flight.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Table(name = "airports")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Airport {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "airport_id")
+    private int id;
 
-    @NotNull(message = "Airport")
-    @Column(name = "AirportId")
-    private Integer airportId;
+    @Size(min = 2, max = 100, message = "Airport name must be between 2 and 100 characters")
+    @Column(name = "airport_name")
+    @NotNull
+    private String name;
 
-    @NotNull(message = "Airport name is required")
-    @Column(name = "AirportName")
-    private String airportName;
-
-    @NotNull(message = "Airport code is required")
-    @Column(name = "AirportCode")
-    private String airportCode;
-
-
-    @NotNull(message = "City is required")
-    @Column(name = "City")
+    @Size(min = 2, max = 100, message = "City name must be between 2 and 100 characters")
+    @Column(name = "city")
     private String city;
 
-    @OneToMany(mappedBy = "source", cascade= CascadeType.ALL,orphanRemoval = true)
-    private Set<Flight> sourceFlights = new HashSet<>();
+    @Size(min = 2, max = 100, message = "Country name must be between 2 and 100 characters")
+    @Column(name = "country")
+    private String country;
 
-    @ManyToOne
-    @JoinColumn(name = "AirlineId")
-    private Airline airline;
+   /* @OneToMany(mappedBy = "airport")
+    private List<Flight> flights;
+*/
+    // ekledim
+    @OneToMany(mappedBy = "sourceAirport")
+    private List<Flight> departureFlights;
 
+    @OneToMany(mappedBy = "destinationAirport")
+    private List<Flight> arrivalFlights;
 
 
 }
